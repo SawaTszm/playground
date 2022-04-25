@@ -1,8 +1,21 @@
-<html>
+<!DOCTYPE html>
+<html lang="ja">
   <head>
-    <!-- CDN情報を記載 -->
+    <meta charset="utf-8" />
+    <title>Hello World With PyScript</title>
+
+    <!--CDN情報を記述-->
     <link rel="stylesheet" href="https://pyscript.net/alpha/pyscript.css" />
     <script defer src="https://pyscript.net/alpha/pyscript.js"></script>
   </head>
-  <body> <py-script> print('Hello, World!') </py-script></body>
+
+  <body>
+    Hello World! <br>
+    このページは、<span id="time"></span>に開かれました。
+    <py-script>
+        from datetime import datetime
+        now = datetime.now()
+        pyscript.write("time", now.strftime("%Y/%m/%d %H:%M:%S"))
+    </py-script>
+  </body>
 </html>
