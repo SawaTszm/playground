@@ -4,7 +4,11 @@
 
 Repository to use when trying something for now.
 
-## Directory Description
+## Directory
+
+### python_poetry
+
+[README.md](/python_poetry/README.md)
 
 ### vue3_vite
 
