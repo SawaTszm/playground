@@ -1,0 +1,8 @@
+{
+    "scripts": {
+        "format": "rome format ."
+    },
+	"devDependencies": {
+		"rome": "0.5.0-next"
+	}
+}

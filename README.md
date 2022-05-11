@@ -1,8 +1,11 @@
 # PRAYGROUND
 
-とりあえず何か試す時に使うリポジトリ
+とりあえず何か試す時に使うリポジトリ。  
+触るときは各ディレクトリでVS Codeを開く体で書いてます。  
+(後々変えるかも)  
 
-Repository to use when trying something for now.
+Repository to use when trying something for now.  
+I open each directory by VS Code when I want to try them.
 
 ## Directory
 
