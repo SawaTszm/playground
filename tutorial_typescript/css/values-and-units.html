@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+  <header>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="values-and-units.css" />
+  </header>
+  <body>
+    <h1>値と単位</h1>
+
+    <h2>emとrem</h2>
+
+    <h3>em(親要素のフォントサイズを参照する)</h3>
+    <ul class="ems">
+      <li>One</li>
+      <li>Two</li>
+      <li>
+        Three
+        <ul>
+          <li>Three A</li>
+          <li>
+            Three B
+            <ul>
+              <li>Three B 2</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+
+    <h3>rem(ルート要素のフォントサイズを参照する)</h3>
+    <ul class="rems">
+      <li>One</li>
+      <li>Two</li>
+      <li>
+        Three
+        <ul>
+          <li>Three A</li>
+          <li>
+            Three B
+            <ul>
+              <li>Three B 2</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+
+    <h2>percentage</h2>
+    <div class="box px">I am 200px wide</div>
+    <div class="box percent">I am 40% wide</div>
+    <div class="wrapper">
+      <div class="box px">I am 200px wide</div>
+      <div class="box percent">I am 40% wide</div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,46 @@
+h1 {
+    color: red;  /*プロパティ: 値*/
+  }
+p, li {  /* 複数の要素に適応する*/
+    color: green;
+}
+li {
+    list-style-type: none;
+}
+li.special {  /* special クラスをもっている li 要素へ焦点を当てる */
+    color: orange;
+    font-weight: bold;
+}
+li em {  /* li要素内のem要素にだけ適応する */
+    color: rebeccapurple;
+}
+h1 + p {  /* h1要素の後のp要素に適応する*/
+    font-size: 200%;
+}
+a:link {  /*状態に沿ったスタイリング*/
+    color: pink;
+}
+a:visited {
+    color: green;
+}
+a:hover {
+    text-decoration: none;
+}
+/* <article> 要素の内側にある <p> 要素の <span> 要素に焦点を当てるとき  */
+article p span {}
+
+/* <h1> 要素の直後に来る <ul> 要素の、そのまた直後に来る <p> 要素に焦点を当てるとき */
+h1 + ul + p {}
+/* <body> 要素の中にある <h1> 要素の直後に来た <p> 要素の中にある special クラスの要素をスタイリング */
+body h1 + p .special {
+    color: yellow;
+    background-color: black;
+    padding: 5px;
+}
+/* TIPS:
+ * DOMがノードツリーで処理されたその上に適応されるので、CSSの書き方(li.special{} や li em{}) は解釈されやすい。
+ * 継承があるかないか、MDNの仕様書欄を確認するとわかる。感覚と常識でわかる通りに、幅、マージン、パディング、境界線などは継承されない。
+ * !importantはカスケードの重み計算を無視して最終的に実行されるもの。安易な使用に注意。
+ * マージンの相殺は足し算じゃなくて大きい数値の適応。負の値がある場合は引き算。
+ * display: inline-block を使用すると、改行をしないままwidthとheight,padding,マージンなどを適応できる。aタグとかに使われることが多い(多分)。(divで囲めばいいのでは……)
+ */

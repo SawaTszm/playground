@@ -1,0 +1,107 @@
+/* spacing */
+
+table {
+    table-layout: fixed;  /* 見出しの幅に応じてカラムのサイズを調整する */
+    width: 100%;
+    border-collapse: collapse;  /* 境界を一つに折りたたむ(デフォルトは二重線) */
+    border: 3px solid purple;
+  }
+  
+  thead th:nth-child(1) {
+    width: 30%;
+  }
+  
+  thead th:nth-child(2) {
+    width: 20%;
+  }
+  
+  thead th:nth-child(3) {
+    width: 15%;
+  }
+  
+  thead th:nth-child(4) {
+    width: 35%;
+  }
+  
+  th, td {
+    padding: 20px;
+  }
+
+/* typography */
+
+html {
+    font-family: 'helvetica neue', helvetica, arial, sans-serif;
+  }
+  
+  thead th, tfoot th {
+    font-family: 'Rock Salt', cursive;
+  }
+  
+  th {
+    letter-spacing: 2px;
+  }
+  
+  td {
+    letter-spacing: 1px;
+  }
+  
+  tbody td {
+    text-align: center;
+  }
+  
+  tfoot th {
+    text-align: right;
+  }
+
+/* グラフィックと色 */
+
+thead, tfoot {
+    background: url(img/leopardskin.jpeg);
+    color: white;
+    text-shadow: 1px 1px 1px black;
+  }
+  
+  thead th, tfoot th, tfoot td {
+    background: linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.5));
+    border: 3px solid purple;
+  }
+
+/* 縞模様 */
+
+tbody tr:nth-child(odd) {
+    background-color: #ff33cc;
+  }
+  
+  tbody tr:nth-child(even) {
+    background-color: #e495e4;
+  }
+  
+  tbody tr {
+    background-image: url(img/noise.png);
+  }
+  
+  table {
+    /* :nth-childセレクタをサポートしないブラウザ用に塗りつぶす */
+    background-color: #ff33cc;
+  }
+
+/* caption */
+
+caption {
+    font-family: 'Rock Salt', cursive;
+    padding: 20px;
+    font-style: italic;
+    caption-side: bottom;  /* 表の下に配置 */
+    color: #666;
+    text-align: right;
+    letter-spacing: 1px;
+  }
+
+  /* 表のポイント
+   * 表のマークアップをできる限り単純にして物事を柔軟に保つ。 例えば、パーセントを使用して、デザインをレスポンシブにする。
+   * table-layout: fixed を使用すると、見出し（<th>）の width を設定して列幅を簡単に設定でき、より予測可能な表レイアウトを作成できる。
+   * border-collapse: collapse を使用して、表要素の境界線を折りたたみ、見た目をよりきれいにして制御しやすくする。
+   * <thead>、<tbody>、<tfoot> を使用して表を論理的なまとまりに分割し、CSSを適用するための特別な場所を提供することで、必要に応じてスタイルを重ねることが容易になる。
+   * 行を読みやすくするために、ゼブラストライピングを使用する。
+   * text-align を使用して、<th> と <td> のテキストを揃えることで、きれいにして見やすくする。
+   */

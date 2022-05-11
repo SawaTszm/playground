@@ -1,0 +1,18 @@
+.box-hidden {
+    border: 1px solid #333333;
+    width: 200px;
+    height: 100px;
+    overflow: hidden;
+}
+.box-scroll {
+    border: 1px solid #333333;
+    width: 200px;
+    height: 100px;
+    overflow: scroll;  /* overflow-y: scroll; */
+}
+.box-auto {
+    border: 1px solid #333333;
+    width: 200px;
+    height: 100px;
+    overflow: auto;  /* コンテンツが収まらない時だけスクロールバーを表示 */
+}

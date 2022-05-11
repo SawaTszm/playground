@@ -1,0 +1,51 @@
+<!DOCTYPE html>  <!-- おまじない(今は) -->
+<html lang="en-US">  <!-- 言語設定 -->
+  <!-- headタグ: メタデータの集まり -->
+  <head>
+    <!-- metaタグ: 明示的なメタ要素の追加方法 -->
+    <meta charset="utf-8">
+    <meta name="author" content="Sawa">
+    <!-- meta description: 検索結果に使われるし、SEOにも影響がある -->
+    <meta name="description" content="This is test page."> 
+    <!-- 他にも色々: FBやTwitterでのリンクに画像やタイトル、説明をつけるためのものなどがある -->
+
+    <!-- ファビコンの追加 -->
+    <!-- favicon.icoを同じフォルダに保存しておく(もしくは、然るべきところに保存してそこを見に行く) -->
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+
+    <!-- CSSの適用 -->
+    <link rel="stylesheet" href="my-css-file.css">
+
+    <title>My test page</title>
+  </head>
+  <body>
+    <!-- h1タグ: 通常ページに一つだけ使われる、最上位の見出し -->
+    <h1>I am the title of this page.</h1>
+
+    <p>Japanese example: <span lang="ja">ご飯が熱い。</span></p>
+    <p>I am a paragraph, oh yes I am.</p>
+
+    <!-- 説明リスト -->
+    <!-- dlで囲み、dt(description term; 説明用語), dd(description definition; 説明定義)を書く -->
+    <dl>
+      <dt>レオパ</dt>
+      <dd>レオパードゲッコー。和名はヒョウモントカゲモドキ。壁チョロしない。可愛い。</dd>
+      <dd>一つのdtに複数の説明もつけられる。</dd>
+      <dt>クレス</dt>
+      <dd>クレステッドゲッコー。和名はオウカンミカドヤモリ。壁チョロする。可愛い。</dd>
+    </dl>
+
+    <!-- ブロッククォート -->
+    <blockquote cite="https://developer.mozilla.org/ja/docs/Web/HTML/Element/blockquote">
+      <p>The <strong>HTML <code>&lt;blockquote&gt;</code> Element</strong> (or <em>HTML Block
+      Quotation Element</em>) indicates that the enclosed text is an extended quotation.</p>
+    </blockquote>
+
+    <!-- インラインクォート -->
+    <p>The quote element — <code>&lt;q&gt;</code> — is <q cite="https://developer.mozilla.org/ja/docs/Web/HTML/Element/q">intended
+      for short quotations that don't require paragraph breaks.</q></p>
+
+    <!-- JavaScriptの適用 -->
+    <script src="my-js-file.js"></script>  <!-- 終了タグが必要 -->
+  </body>
+</html>
