@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="https://pyscript.net/alpha/pyscript.css" />
     <script defer src="https://pyscript.net/alpha/pyscript.js"></script>
     <py-env>
-        <!-- この場合は`python3 -m http.server`でローカルサーバ立てないとコケる -->
         - paths:
             - ./modules/greeting.py
     </py-env>
@@ -17,7 +16,7 @@
   <body>
     <py-script>
         from greeting import say_hello
-        say_hello("hoge taro")
+        say_hello("panda team")
     </py-script>
   </body>
 </html>
