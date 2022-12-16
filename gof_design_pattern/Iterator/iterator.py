@@ -3,6 +3,7 @@ import typing
 
 
 class IteratorInterface(metaclass=abc.ABCMeta):
+    """Iteratorの機能を宣言するインターフェース"""
 
     @abc.abstractmethod
     def has_next(self) -> bool:
@@ -14,6 +15,7 @@ class IteratorInterface(metaclass=abc.ABCMeta):
 
 
 class AggreegateInterface(metaclass=abc.ABCMeta):
+    """IterableなObjectのインターフェース"""
 
     @abc.abstractmethod
     def iterator(self) -> IteratorInterface:
@@ -53,7 +55,7 @@ class BookShelf(AggreegateInterface):
     def get_book_at(self, index: int) -> Book:
         return self.__books[index]
 
-    def appendBook(self, book: Book) -> None:
+    def append_book(self, book: Book) -> None:
         if self.__last >= self.__maxsize:
             raise Exception
 
@@ -75,15 +77,16 @@ class BookShelf(AggreegateInterface):
 if __name__ == '__main__':
     print("start:")
     bookshelf = BookShelf(3)
-    bookshelf.appendBook(Book("first book"))
-    bookshelf.appendBook(Book("second book"))
-    bookshelf.appendBook(Book("third book"))
+    bookshelf.append_book(Book("first book"))
+    bookshelf.append_book(Book("second book"))
+    bookshelf.append_book(Book("third book"))
     bookshelf.change_maxsize(5)
-    bookshelf.appendBook(Book("fourth book"))
-    bookshelf.appendBook(Book("fifth book"))
+    bookshelf.append_book(Book("fourth book"))
+    bookshelf.append_book(Book("fifth book"))
 
     iterator = bookshelf.iterator()
     print("search books:")
     while (iterator.has_next()):
         book = iterator.next()
         print(f"  * {book.get_name()}")
+    print(":end")
