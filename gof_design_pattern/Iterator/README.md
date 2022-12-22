@@ -1,5 +1,5 @@
 
-# Iteratorパターン
+# Iterator
 
 ## クラス図
 
