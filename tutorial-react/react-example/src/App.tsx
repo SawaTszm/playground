@@ -27,11 +27,15 @@ export function Board( { xIsNext, squares, onPlay}: {xIsNext: boolean, squares: 
   }
 
   const winner = calculateWinner(squares);
+  // squaresの中にnullが一つもないかのconst
+  const isEmptySquare = squares.find((s) => s === null) !== undefined
   let status;
   if (winner) {
     status = "Winner: " + winner;
-  } else {
+  } else if (isEmptySquare) {
     status = "Next player: " + (xIsNext ? "X" : "O");
+  } else {
+    status = "Draw"
   }
 
   return (
