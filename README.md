@@ -4,8 +4,8 @@
 触るときは各ディレクトリでVS Codeを開く体で書いてます。  
 (後々変えるかも)  
 
-Repository to use when trying something for now.  
-I open each directory by VS Code when I want to try them.
+Repository to use when I want to try something first.  
+I open each directory with VS Code when I want to try it.
 
 ## Directory
 
