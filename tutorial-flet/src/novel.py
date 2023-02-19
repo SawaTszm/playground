@@ -6,7 +6,7 @@ SAMPLE_TEXT = [
     ",おじいさんは山へしばかりに、,/images/sport_jogging_oldman.png,",
     ",おばあさんは川へせんたくに行きました。,/images/sport_walking_oldwoman.png,",
     ",おばあさんが川でせんたくをしていると、ドンブラコ、ドンブラコと、大きな桃が流れてきました。,/images/fruit_peach.png,",
-    ",おばあさんはどうする？,,桃を拾う,ROUTE_A,そのまま帰る,ROUTE_B",
+    ",おばあさんはどうする？,/images/fruit_peach.png,桃を拾う,ROUTE_A,そのまま帰る,ROUTE_B",
 ]
 ROUTE_A = [
     "おばあさん,おや、これは良いおみやげになるわ。,/images/sport_walking_oldwoman.png,",
@@ -26,6 +26,8 @@ class TextRead:
         self.image = ft.Image(
             src="/images/monogatari_momotarou_solo.png", width=200, height=200, fit=ft.ImageFit.CONTAIN
         )
+        self.a = ft.TextButton(visible=False)
+        self.b = ft.TextButton(visible=False)
         self.page = page
 
     def handle_clicked(self, e):
@@ -50,25 +52,29 @@ class TextRead:
             if len(split_text) >= 3 and split_text[2]:
                 self.image.src = split_text[2]
             if len(split_text) > 4:
-                self.a = ft.TextButton(content=ft.Text(value=split_text[3]), on_click=self.change_route)
-                self.b = ft.TextButton(content=ft.Text(value=split_text[5]), on_click=self.change_route)
+                self_class = self
+                self.a = ft.TextButton(
+                    content=ft.Text(value=split_text[3]),
+                    on_click=lambda self=self_class, e=self, route=split_text[4]: self_class.change_route(e, route),
+                )
+                self.b = ft.TextButton(
+                    content=ft.Text(value=split_text[5]),
+                    on_click=lambda self=self_class, e=self, route=split_text[6]: self_class.change_route(e, route),
+                )
                 self.page.add(self.a, self.b)
             self.current_index += 1
         self.page.update()
 
-    def change_route(self, e):
+    def change_route(self, e, route):
         """change_route
         選択肢をクリックしたとき、ルート分岐を行う。
-
-        TODO: Eventオブジェクトが持つマジックナンバーに頼って分岐してるので、普遍的な参照に直したい。
         """
-        split_text = self.text_list[self.current_index - 1].split(",")
         # TODO: fetch text from text file
-        print(e.target)
-        self.current_text_file = split_text[4] if e.target == "_14" else split_text[6]
+        self.current_text_file = route
         self.text_list = eval(self.current_text_file)
         self.current_index = 0
-        self.page.controls.pop()
+        self.a.visible = False
+        self.b.visible = False
         self.page.controls.pop()
         self.handle_clicked(e)
 
@@ -92,47 +98,66 @@ class TextRead:
         with open("save.txt", "r") as f:
             last_save = f.readlines()[-1].split(",")
             self.current_text_file = last_save[0]
+            # TODO: fetch text from text file
             self.text_list = eval(self.current_text_file)
             self.current_index = int(last_save[1]) - 1
+            self.a.visible = False
+            self.b.visible = False
             self.handle_clicked(e)
 
-    def get_text(self):
-        return self.text
-
-    def get_name(self):
-        return self.name
-
-    def get_image(self):
-        return self.image
-
-
-def main(page):
-    text_read = TextRead(page)
-
-    page.add(
-        text_read.get_image(),
-        ft.TextButton(
+    def get_text_container(self):
+        """テキストエリアのTextButtonオブジェクトを返す"""
+        return ft.OutlinedButton(
             content=ft.Container(
                 content=ft.Column(
                     [
-                        text_read.get_name(),
-                        text_read.get_text(),
+                        self.get_name(),
+                        self.get_text(),
                     ],
                     alignment=ft.MainAxisAlignment.CENTER,
                     spacing=5,
                 ),
                 padding=ft.padding.all(10),
+                width=600,
+                height=100,
             ),
-            on_click=text_read.handle_clicked,
-        ),
-        ft.TextButton(
-            content=ft.Text(value="save", size=10),
-            on_click=text_read.save
-        ),
-        ft.TextButton(
-            content=ft.Text(value="load", size=10),
-            on_click=text_read.load,
+            on_click=self.handle_clicked,
+            style=ft.ButtonStyle(
+                bgcolor={ft.MaterialState.HOVERED: ft.colors.WHITE},
+                shape=ft.RoundedRectangleBorder(radius=0),
+            ),
         )
+
+    def get_text(self):
+        """テキストエリアに表示するためのTextオブジェクトを返す"""
+        return self.text
+
+    def get_name(self):
+        """テキストエリア上部に名前を表示するためのTextオブジェクトを返す"""
+        return self.name
+
+    def get_image(self):
+        """人物のImageオブジェクトを返す(今のところ一つの画像だけ)"""
+        return self.image
+
+
+def main(page):
+    page.theme_mode = "LIGHT"
+    text_read = TextRead(page)
+
+    page.add(
+        text_read.get_image(),
+        ft.Row(
+            spacing=5,
+            controls=[
+                text_read.get_text_container(),
+                ft.TextButton(content=ft.Text(value="save", size=10), on_click=text_read.save),
+                ft.TextButton(
+                    content=ft.Text(value="load", size=10),
+                    on_click=text_read.load,
+                ),
+            ],
+        ),
     )
 
 
