@@ -2,12 +2,19 @@
 import flet as ft
 
 SAMPLE_TEXT = [
-    ",昔々あるところに、おじいさんとおばあさんが住んでいました。,/images/mukashibanashi_ojiisan_obaasan.png",
-    ",おじいさんは山へしばかりに、,/images/sport_jogging_oldman.png",
-    ",おばあさんは川へせんたくに行きました。,/images/sport_walking_oldwoman.png",
-    ",おばあさんが川でせんたくをしていると、ドンブラコ、ドンブラコと、大きな桃が流れてきました。,/images/fruit_peach.png",
-    "おばあさん,おや、これは良いおみやげになるわ。,/images/sport_walking_oldwoman.png",
-    ",おばあさんは大きな桃を拾い上げて、家に持ち帰りました。",
+    ",昔々あるところに、おじいさんとおばあさんが住んでいました。,/images/mukashibanashi_ojiisan_obaasan.png,",
+    ",おじいさんは山へしばかりに、,/images/sport_jogging_oldman.png,",
+    ",おばあさんは川へせんたくに行きました。,/images/sport_walking_oldwoman.png,",
+    ",おばあさんが川でせんたくをしていると、ドンブラコ、ドンブラコと、大きな桃が流れてきました。,/images/fruit_peach.png,",
+    ",おばあさんはどうする？,,桃を拾う,ROUTE_A,そのまま帰る,ROUTE_B",
+]
+ROUTE_A = [
+    "おばあさん,おや、これは良いおみやげになるわ。,/images/sport_walking_oldwoman.png,",
+    ",おばあさんは大きな桃を拾い上げて、家に持ち帰りました。,",
+]
+ROUTE_B = [
+    "おばあさん,そんなことよりお洗濯しなくちゃ。,/images/sport_walking_oldwoman.png,",
+    ",おばあさんは桃を見送りました。,"
 ]
 
 
@@ -26,7 +33,18 @@ class TextRead:
         )
         self.page = page
 
-    def handle_clicked(self, e,):
+    def handle_clicked(self, e):
+        """handle_clicked
+        クリックされた時の状況に応じて、画面の更新を行う。
+
+        現在表示されている内容が選択肢の時: 何もしない
+        テキストリストの最後までたどり着いた時: "続く……。"を表示
+        それ以外: テキストを更新。選択肢がある場合は選択肢を表示
+
+        """
+        if self.current_index > 0 and len(self.text_list[self.current_index - 1].split(",")) > 4:
+            return
+
         if len(self.text_list) < self.current_index + 1:
             self.name.value = ""
             self.text.value = "続く……。"
@@ -34,10 +52,30 @@ class TextRead:
             split_text = self.text_list[self.current_index].split(",")
             self.name.value = split_text[0]
             self.text.value = split_text[1]
-            if len(split_text) == 3:
+            if len(split_text) >= 3 and split_text[2]:
                 self.image.src = split_text[2]
+            if len(split_text) > 4:
+                self.a = ft.TextButton(
+                    content=ft.Text(value=split_text[3]), on_click=self.change_route)
+                self.b = ft.TextButton(
+                    content=ft.Text(value=split_text[5]), on_click=self.change_route)
+                self.page.add(self.a, self.b)
             self.current_index += 1
         self.page.update()
+
+    def change_route(self, e):
+        """change_route
+        選択肢をクリックしたとき、ルート分岐を行う。
+
+        TODO: Eventオブジェクトが持つマジックナンバーに頼って分岐してるので、普遍的な参照に直したい。
+        """
+        split_text = self.text_list[self.current_index - 1].split(",")
+        # TODO: fetch text from text file
+        self.text_list = eval(split_text[4]) if e.target == "_10" else eval(split_text[6])
+        self.current_index = 0
+        self.page.controls.pop()
+        self.page.controls.pop()
+        self.handle_clicked(e)
 
     def get_text(self):
         return self.text
