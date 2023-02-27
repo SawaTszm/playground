@@ -1,0 +1,8 @@
+{
+    "dart.flutterSdkPath": "tutorial-flutter/tutorialapp/.fvm/flutter_sdk",
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+        "source.fixAll": true,
+        "source.organizeImports": true,
+    },
+}
