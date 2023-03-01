@@ -38,7 +38,14 @@ class TutorialHome extends StatelessWidget {
   }
 }
 
-/* Materialは、Flutterに含まれる2つのバンドルデザインの1つ。
+/**Materialは、Flutterに含まれる2つのバンドルデザインの1つ。
  * iOS中心のデザインを作成するには、独自のバージョンのCupertinoAppとCupertinoNavigationBarを含む、
  * Cupertinoコンポーネントパッケージを参照するといい(らしい)。
+ */
+
+/**
+ * StatelessWidgetは親ウィジェットから引数を受け取り、それを最終メンバ変数に格納して、
+ * build()が要求された時にその格納された値を使用して子ウィジェットの引数を代入する。
+ * ユーザの入力に反応するなど、より複雑な反応をするためには状態を保持するStateオブジェクトを生成できる
+ * StatefullWidgetを使う必要がある。
  */
