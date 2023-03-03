@@ -38,6 +38,7 @@ class MyHomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     // MyHomePageでは、watchメソッドを使ってアプリの現在の状態の変化を追跡します。
     var appState = context.watch<MyAppState>();
+    var pair = appState.current;
 
     // すべてのビルドメソッドは、ウィジェットまたは（より一般的には）ウィジェットのネストされたツリーを返す必要があります。
     // この場合、トップレベルのウィジェットはScaffoldです。このコードラボではScaffoldを使うことはありませんが、便利なウィジェットで、実際のFlutterアプリの大半に搭載されているものです。
@@ -50,7 +51,7 @@ class MyHomePage extends StatelessWidget {
           Text("A random AWESOME idea:"),
           // この2番目のテキスト・ウィジェットは、appStateを受け取り、そのクラスの唯一のメンバーであるcurrent（これはWordPairです）にアクセスします。
           // WordPairは、asPascalCaseやasSnakeCaseなど、便利なゲッターをいくつか提供しています。ここではasLowerCaseを使用していますが、他の選択肢を好むのであれば、今すぐ変更できます。
-          Text(appState.current.asLowerCase),
+          BigCard(pair: pair),
           ElevatedButton(
               onPressed: () {
                 appState.getNext();
@@ -63,3 +64,29 @@ class MyHomePage extends StatelessWidget {
     );
   }
 }
+
+// Text(pair: pair);の行にカーソルを合わせた状態で⌘. → Extract Widget、BigCardとtypeしてEnter でWidgetとして抽出できる
+// StatelessWidgetのところにカーソルを合わせて⌘.したら、convert StatefulWidget もできる。sugeeee
+class BigCard extends StatelessWidget {
+  const BigCard({
+    super.key,
+    required this.pair,
+  });
+
+  final WordPair pair;
+
+  @override
+  Widget build(BuildContext context) {
+    // 注：Flutterでは、できる限り継承ではなく、合成を使います。ここでは、paddingがTextの属性である代わりに、ウィジェットになっているのです。
+    // こうすることで、ウィジェットはその1つの責任に集中でき、開発者はUIをどのように構成するか、完全に自由にできるようになります。
+    // 例えば、Paddingウィジェットを使って、テキスト、画像、ボタン、独自のカスタムウィジェット、またはアプリ全体をパッド化することができます。ウィジェットは、何を包んでいるかは気にしません。
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Text(pair.asLowerCase),
+      ),
+    );
+  }
+}
+
+// 次、Theme and style から
