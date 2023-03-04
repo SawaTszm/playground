@@ -61,8 +61,7 @@ class _MyHomePageState extends State<MyHomePage> {
         page = GeneratorPage();
         break;
       case 1:
-        // Placeholder: 仮置き用のウィジェット。「ここのUIは未完成ですよ」を示せる。
-        page = Placeholder();
+        page = GeneratorFavoritePage();
         break;
       default:
         throw UnimplementedError('no widget for $selectedIndex');
@@ -148,6 +147,40 @@ class GeneratorPage extends StatelessWidget {
               ),
             ],
           ),
+        ],
+      ),
+    );
+  }
+}
+
+class GeneratorFavoritePage extends StatelessWidget {
+  const GeneratorFavoritePage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    var appState = context.watch<MyAppState>();
+    var favorites = appState.favorites;
+    var theme = Theme.of(context);
+    var style = theme.textTheme.displayMedium!.copyWith(
+      color: theme.colorScheme.onPrimary,
+    );
+
+    return Center(
+      child: ListView(
+        children: [
+          for (var favorite in favorites)
+            Center(
+              child: Card(
+                color: theme.colorScheme.primary,
+                child: Padding(
+                    padding: const EdgeInsets.all(5),
+                    child: Text(
+                      favorite.asLowerCase,
+                      style: style,
+                      semanticsLabel: favorite.asPascalCase,
+                    )),
+              ),
+            ),
         ],
       ),
     );
