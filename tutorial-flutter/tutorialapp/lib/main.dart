@@ -31,6 +31,18 @@ class MyAppState extends ChangeNotifier {
     current = WordPair.random();
     notifyListeners();
   }
+
+  // "WordPair"型(それ以外はエラーになる)
+  var favorites = <WordPair>[];
+
+  void toggleFavorite() {
+    if (favorites.contains(current)) {
+      favorites.remove(current);
+    } else {
+      favorites.add(current);
+    }
+    notifyListeners();
+  }
 }
 
 class MyHomePage extends StatelessWidget {
@@ -40,6 +52,13 @@ class MyHomePage extends StatelessWidget {
     // MyHomePageでは、watchメソッドを使ってアプリの現在の状態の変化を追跡します。
     var appState = context.watch<MyAppState>();
     var pair = appState.current;
+
+    IconData favoriteIcon;
+    if (appState.favorites.contains(pair)) {
+      favoriteIcon = Icons.favorite;
+    } else {
+      favoriteIcon = Icons.favorite_border;
+    }
 
     // すべてのビルドメソッドは、ウィジェットまたは（より一般的には）ウィジェットのネストされたツリーを返す必要があります。
     // この場合、トップレベルのウィジェットはScaffoldです。このコードラボではScaffoldを使うことはありませんが、便利なウィジェットで、実際のFlutterアプリの大半に搭載されているものです。
@@ -55,11 +74,23 @@ class MyHomePage extends StatelessWidget {
             // WordPairは、asPascalCaseやasSnakeCaseなど、便利なゲッターをいくつか提供しています。ここではasLowerCaseを使用していますが、他の選択肢を好むのであれば、今すぐ変更できます。
             BigCard(pair: pair),
             SizedBox(height: 10), // 大体隙間(margin)を取るために使われるWidget
-            ElevatedButton(
-                onPressed: () {
-                  appState.getNext();
-                },
-                child: Text("次へ"))
+            Row(
+              mainAxisSize:
+                  MainAxisSize.min, // 真ん中にする(普通にmainAxisAlignment使ってもいい)
+              children: [
+                ElevatedButton.icon(
+                  onPressed: appState.toggleFavorite,
+                  icon: Icon(favoriteIcon),
+                  label: Text("いいね!"),
+                ),
+                SizedBox(width: 10),
+                ElevatedButton(
+                    onPressed: () {
+                      appState.getNext();
+                    },
+                    child: Text("次へ")),
+              ],
+            )
             // Flutterのコードがいかに末尾のカンマを多用しているかに注目してください。なぜならchildrenはこの特定のColumnパラメータリストの最後の（そして唯一の）メンバーだからです。
             // しかし、一般的に末尾のカンマを使うのは良い考えです。メンバーを増やすのが簡単になりますし、Dartの自動整形がそこに改行を入れるようにするヒントにもなります。詳細は、「コードの書式設定」を参照してください。
           ],
