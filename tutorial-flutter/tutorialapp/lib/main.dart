@@ -45,56 +45,107 @@ class MyAppState extends ChangeNotifier {
   }
 }
 
-class MyHomePage extends StatelessWidget {
-  // すべてのウィジェットはbuild()メソッドを定義し、ウィジェットの状況が変わるたびに自動的に呼び出されるため、ウィジェットは常に最新の状態に保たれます。
+class MyHomePage extends StatefulWidget {
+  @override
+  State<MyHomePage> createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  var selectedIndex = 0;
+
   @override
   Widget build(BuildContext context) {
-    // MyHomePageでは、watchメソッドを使ってアプリの現在の状態の変化を追跡します。
+    Widget page;
+    switch (selectedIndex) {
+      case 0:
+        page = GeneratorPage();
+        break;
+      case 1:
+        // Placeholder: 仮置き用のウィジェット。「ここのUIは未完成ですよ」を示せる。
+        page = Placeholder();
+        break;
+      default:
+        throw UnimplementedError('no widget for $selectedIndex');
+    }
+
+    return Scaffold(
+      body: Row(
+        children: [
+          // SafeArea: ハードウェアノッチやステータスバーで隠れないエリア
+          SafeArea(
+            child: NavigationRail(
+              // trueに変えるとアイコンの隣にラベルが表示される
+              extended: false,
+              destinations: [
+                NavigationRailDestination(
+                  icon: Icon(Icons.home),
+                  label: Text('Home'),
+                ),
+                NavigationRailDestination(
+                  icon: Icon(Icons.favorite),
+                  label: Text('Favorites'),
+                ),
+              ],
+              selectedIndex: selectedIndex,
+              onDestinationSelected: (value) {
+                setState(() {
+                  selectedIndex = value;
+                });
+              },
+            ),
+          ),
+          // Expanded: 取れるだけのスペースを取る"欲張り"なウィジェット。
+          Expanded(
+            child: Container(
+              color: Theme.of(context).colorScheme.primaryContainer,
+              child: page,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class GeneratorPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
     var appState = context.watch<MyAppState>();
     var pair = appState.current;
 
-    IconData favoriteIcon;
+    IconData icon;
     if (appState.favorites.contains(pair)) {
-      favoriteIcon = Icons.favorite;
+      icon = Icons.favorite;
     } else {
-      favoriteIcon = Icons.favorite_border;
+      icon = Icons.favorite_border;
     }
 
-    // すべてのビルドメソッドは、ウィジェットまたは（より一般的には）ウィジェットのネストされたツリーを返す必要があります。
-    // この場合、トップレベルのウィジェットはScaffoldです。このコードラボではScaffoldを使うことはありませんが、便利なウィジェットで、実際のFlutterアプリの大半に搭載されているものです。
-    return Scaffold(
-      // ColumnはFlutterで最も基本的なレイアウトウィジェットの1つです。
-      // 任意の数の子ウィジェットを受け取り、上から下へ列を作ることができます。
-      // デフォルトでは、カラムは視覚的に子を一番上に配置します。すぐにこれを変更して、カラムが中央に配置されるようにします。
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            // この2番目のテキスト・ウィジェットは、appStateを受け取り、そのクラスの唯一のメンバーであるcurrent（これはWordPairです）にアクセスします。
-            // WordPairは、asPascalCaseやasSnakeCaseなど、便利なゲッターをいくつか提供しています。ここではasLowerCaseを使用していますが、他の選択肢を好むのであれば、今すぐ変更できます。
-            BigCard(pair: pair),
-            SizedBox(height: 10), // 大体隙間(margin)を取るために使われるWidget
-            Row(
-              mainAxisSize:
-                  MainAxisSize.min, // 真ん中にする(普通にmainAxisAlignment使ってもいい)
-              children: [
-                ElevatedButton.icon(
-                  onPressed: appState.toggleFavorite,
-                  icon: Icon(favoriteIcon),
-                  label: Text("いいね!"),
-                ),
-                SizedBox(width: 10),
-                ElevatedButton(
-                    onPressed: () {
-                      appState.getNext();
-                    },
-                    child: Text("次へ")),
-              ],
-            )
-            // Flutterのコードがいかに末尾のカンマを多用しているかに注目してください。なぜならchildrenはこの特定のColumnパラメータリストの最後の（そして唯一の）メンバーだからです。
-            // しかし、一般的に末尾のカンマを使うのは良い考えです。メンバーを増やすのが簡単になりますし、Dartの自動整形がそこに改行を入れるようにするヒントにもなります。詳細は、「コードの書式設定」を参照してください。
-          ],
-        ),
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          BigCard(pair: pair),
+          SizedBox(height: 10),
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ElevatedButton.icon(
+                onPressed: () {
+                  appState.toggleFavorite();
+                },
+                icon: Icon(icon),
+                label: Text('Like'),
+              ),
+              SizedBox(width: 10),
+              ElevatedButton(
+                onPressed: () {
+                  appState.getNext();
+                },
+                child: Text('Next'),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }
